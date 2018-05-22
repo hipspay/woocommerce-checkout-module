@@ -1,0 +1,957 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce hips Gateway\n"
+"POT-Creation-Date: 2017-03-30 12:28-0800\n"
+"PO-Revision-Date: 2017-03-30 12:28-0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/class-wc-gateway-hips-addons.php:106
+#: includes/class-wc-gateway-hips-addons.php:153
+#: includes/class-wc-gateway-hips.php:745
+#: includes/class-wc-hips-apple-pay.php:684
+#: includes/legacy/class-wc-gateway-hips.php:446
+#, php-format
+msgid ""
+"Sorry, the minimum allowed order total is %1$s to use this payment method."
+msgstr ""
+
+#: includes/class-wc-gateway-hips-addons.php:119
+msgid "Customer not found"
+msgstr ""
+
+#: includes/class-wc-gateway-hips-addons.php:160
+msgid "Unable to store payment details. Please try again."
+msgstr ""
+
+#: includes/class-wc-gateway-hips-addons.php:217
+#: includes/class-wc-gateway-hips-addons.php:260
+#, php-format
+msgid "hips Transaction Failed (%s)"
+msgstr ""
+
+#: includes/class-wc-gateway-hips-addons.php:384
+#: includes/class-wc-gateway-hips-addons.php:389
+#, php-format
+msgid "Via %1$s card ending in %2$s"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:123
+#: includes/legacy/class-wc-gateway-hips.php:18
+msgid "hips"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:124
+#: includes/legacy/class-wc-gateway-hips.php:19
+msgid ""
+"hips works by adding credit card fields on the checkout and then sending "
+"the details to hips for verification."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:172
+#: includes/legacy/class-wc-gateway-hips.php:60
+msgid "Continue to payment"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:176
+#: includes/legacy/class-wc-gateway-hips.php:64
+#, php-format
+msgid ""
+"TEST MODE ENABLED. In test mode, you can use the card number "
+"4242424242424242 with any CVC and a valid expiration date or check the "
+"documentation \"<a href=\"%s\">Testing hips</a>\" for more card numbers."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:282
+msgid "Unable to verify domain - missing secret key."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:306
+#, php-format
+msgid "Unable to verify domain - %s"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:331
+msgid "Unable to create domain association folder to domain root."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:337
+msgid "Unable to copy domain association file to domain root."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:351
+msgid "Your domain has been verified with Apple Pay!"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:358
+#: includes/class-wc-gateway-hips.php:795
+#: includes/class-wc-hips-apple-pay.php:718
+#: includes/legacy/class-wc-gateway-hips.php:481
+#, php-format
+msgid "Error: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:380
+#, php-format
+msgid ""
+"Apple Pay domain verification failed. Please check the %1$slog%2$s to see "
+"the issue. (Logging must be enabled to see recorded logs)"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:385
+#: includes/legacy/class-wc-gateway-hips.php:165
+#, php-format
+msgid ""
+"hips is enabled, but the <a href=\"%s\">force SSL option</a> is disabled; "
+"your checkout may not be secure! Please enable SSL and ensure your server "
+"has a valid SSL certificate - hips will only work in test mode."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:434
+msgid "Add Card"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:481
+msgid "The card number is not a valid credit card number."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:482
+msgid "The card's expiration month is invalid."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:483
+msgid "The card's expiration year is invalid."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:484
+msgid "The card's security code is invalid."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:485
+msgid "The card number is incorrect."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:486
+msgid "The card has expired."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:487
+msgid "The card's security code is incorrect."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:488
+msgid "The card's zip code failed validation."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:489
+msgid "The card was declined."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:490
+msgid "There is no card on a customer that is being charged."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:491
+msgid "An error occurred while processing the card."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:492
+msgid "Could not find payment information."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:513
+msgid ""
+"This is not a valid live key. Live keys start with \"sk_live_\" and "
+"\"pk_live_\"."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:514
+msgid ""
+"This is not a valid test key. Test keys start with \"sk_test_\" and "
+"\"pk_test_\"."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:515
+msgid "Re-verify Domain"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:516
+msgid "Missing Secret Key. Please set the secret key field above and re-try."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:551
+#: includes/legacy/class-wc-gateway-hips.php:296
+msgid "Please accept the terms and conditions first"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:552
+#: includes/legacy/class-wc-gateway-hips.php:297
+msgid "Please fill in required checkout fields first"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:570
+#: includes/class-wc-hips-payment-request.php:95
+msgid "Sorry, we're not accepting prepaid cards at this time."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:590
+#: includes/class-wc-hips-apple-pay.php:738
+#, php-format
+msgid "%1$s - Order %2$s"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:604
+msgid "Customer Name"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:605
+msgid "Customer Email"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:668
+msgid "Invalid payment method. Please input a new card number."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:733
+#: includes/legacy/class-wc-gateway-hips.php:434
+msgid "Please enter your card details to make a payment."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:734
+#: includes/legacy/class-wc-gateway-hips.php:435
+msgid ""
+"Developers: Please make sure that you are including jQuery and there are no "
+"JavaScript errors on the page."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:762
+msgid "This card is no longer available and has been removed."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:853 woocommerce-gateway-hips.php:470
+#, php-format
+msgid "hips charge complete (Charge ID: %s)"
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:864
+#: includes/legacy/class-wc-gateway-hips.php:526
+#, php-format
+msgid ""
+"hips charge authorized (Charge ID: %s). Process order to take payment, or "
+"cancel to remove the pre-authorization."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:878
+#: includes/class-wc-gateway-hips.php:887
+#: includes/legacy/class-wc-gateway-hips.php:540
+msgid "There was a problem adding the card."
+msgstr ""
+
+#: includes/class-wc-gateway-hips.php:939
+#, php-format
+msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
+msgstr ""
+
+#: includes/class-wc-hips-api.php:73
+msgid "There was a problem connecting to the payment gateway."
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:192
+#: includes/class-wc-hips-apple-pay.php:416
+#: includes/class-wc-hips-apple-pay.php:470
+#: includes/class-wc-hips-apple-pay.php:559
+#: includes/class-wc-hips-apple-pay.php:622
+#: includes/class-wc-hips-apple-pay.php:670
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:265
+#: includes/class-wc-hips-apple-pay.php:821
+msgid "Sub-Total"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:404
+msgid "Or"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:503
+msgid "Please enter a valid postcode/ZIP."
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:580
+#: includes/class-wc-hips-apple-pay.php:603
+msgid "Unable to find shipping method for address."
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:650
+#: includes/class-wc-hips-apple-pay.php:835
+#: includes/class-wc-hips-payment-request.php:348
+msgid "Tax"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:843
+msgid "Shipping"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:851
+msgid "Discount"
+msgstr ""
+
+#: includes/class-wc-hips-apple-pay.php:869
+#: includes/class-wc-hips-apple-pay.php:876
+#: includes/class-wc-hips-apple-pay.php:878
+#: includes/class-wc-hips-apple-pay.php:901
+#: includes/class-wc-hips-apple-pay.php:933
+#: includes/class-wc-hips-apple-pay.php:965
+#: includes/class-wc-hips-apple-pay.php:989
+#, php-format
+msgid "Error %d: Unable to create order. Please try again."
+msgstr ""
+
+#: includes/class-wc-hips-customer.php:150
+msgid "Could not create hips customer."
+msgstr ""
+
+#: includes/class-wc-hips-customer.php:191
+msgid "Unable to add card"
+msgstr ""
+
+#. translators: Do not translate the [option] placeholder
+#: includes/class-wc-hips-payment-request.php:97
+msgid "Unknown shipping option \"[option]\"."
+msgstr ""
+
+#: includes/class-wc-hips-payment-request.php:122
+msgid "Total"
+msgstr ""
+
+#: includes/class-wc-hips-payment-request.php:286
+msgid "Empty cart"
+msgstr ""
+
+#: includes/class-wc-hips-payment-request.php:308
+msgid "Subtotal"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:50
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:73
+msgid "Unable to make default card, please try again"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:54
+msgid "Unable to delete card."
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:56
+msgid "Card deleted."
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:77
+msgid "Unable to update default card."
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips-saved-cards.php:79
+msgid "Default card updated."
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:149
+#, php-format
+msgid "hips error: Please enter your secret key <a href=\"%s\">here</a>"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:153
+#, php-format
+msgid "hips error: Please enter your publishable key <a href=\"%s\">here</a>"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:159
+msgid ""
+"hips error: Your secret and publishable keys match. Please check and re-"
+"enter."
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:218
+msgid "Manage cards"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:229
+#, php-format
+msgid "%s card ending in %s (Expires %s/%s)"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:237
+msgid "Use a new credit card"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:331
+#, php-format
+msgid "%s - Order %s"
+msgstr ""
+
+#: includes/legacy/class-wc-gateway-hips.php:590
+#, php-format
+msgid "Refunded %s - Refund ID: %s - Reason: %s"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:1
+msgid "Saved cards"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:5
+msgid "Card"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:6
+msgid "Expires"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:19
+#, php-format
+msgid "%s card ending in %s"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:20
+msgid "(Default)"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:22
+#, php-format
+msgid "Expires %s/%s"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:27
+msgid "Delete card"
+msgstr ""
+
+#: includes/legacy/templates/saved-cards.php:34
+msgid "Make Default"
+msgstr ""
+
+#: includes/settings-hips.php:9
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/settings-hips.php:10
+msgid "Enable hips"
+msgstr ""
+
+#: includes/settings-hips.php:16
+msgid "Title"
+msgstr ""
+
+#: includes/settings-hips.php:18
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: includes/settings-hips.php:19
+msgid "Credit Card (hips)"
+msgstr ""
+
+#: includes/settings-hips.php:23
+msgid "Description"
+msgstr ""
+
+#: includes/settings-hips.php:25
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: includes/settings-hips.php:26
+msgid "Pay with your credit card via hips."
+msgstr ""
+
+#: includes/settings-hips.php:30
+msgid "Test mode"
+msgstr ""
+
+#: includes/settings-hips.php:31
+msgid "Enable Test Mode"
+msgstr ""
+
+#: includes/settings-hips.php:33
+msgid "Place the payment gateway in test mode using test API keys."
+msgstr ""
+
+#: includes/settings-hips.php:38
+msgid "Test Secret Key"
+msgstr ""
+
+#: includes/settings-hips.php:40 includes/settings-hips.php:47
+#: includes/settings-hips.php:54 includes/settings-hips.php:61
+msgid "Get your API keys from your hips account."
+msgstr ""
+
+#: includes/settings-hips.php:45
+msgid "Test Publishable Key"
+msgstr ""
+
+#: includes/settings-hips.php:52
+msgid "Live Secret Key"
+msgstr ""
+
+#: includes/settings-hips.php:59
+msgid "Live Publishable Key"
+msgstr ""
+
+#: includes/settings-hips.php:66
+msgid "Statement Descriptor"
+msgstr ""
+
+#: includes/settings-hips.php:68
+msgid ""
+"Extra information about a charge. This will appear on your customer’s credit "
+"card statement."
+msgstr ""
+
+#: includes/settings-hips.php:73
+msgid "Capture"
+msgstr ""
+
+#: includes/settings-hips.php:74
+msgid "Capture charge immediately"
+msgstr ""
+
+#: includes/settings-hips.php:76
+msgid ""
+"Whether or not to immediately capture the charge. When unchecked, the charge "
+"issues an authorization and will need to be captured later. Uncaptured "
+"charges expire in 7 days."
+msgstr ""
+
+#: includes/settings-hips.php:81
+msgid "hips Checkout"
+msgstr ""
+
+#: includes/settings-hips.php:82
+msgid "Enable hips Checkout"
+msgstr ""
+
+#: includes/settings-hips.php:84
+msgid ""
+"If enabled, this option shows a \"pay\" button and modal credit card form on "
+"the checkout, instead of credit card fields directly on the page."
+msgstr ""
+
+#: includes/settings-hips.php:89
+msgid "hips Checkout locale"
+msgstr ""
+
+#: includes/settings-hips.php:92
+msgid ""
+"Language to display in hips Checkout modal. Specify Auto to display "
+"Checkout in the user's preferred language, if available. English will be "
+"used by default."
+msgstr ""
+
+#: includes/settings-hips.php:96
+msgid "Auto"
+msgstr ""
+
+#: includes/settings-hips.php:97
+msgid "Simplified Chinese"
+msgstr ""
+
+#: includes/settings-hips.php:98
+msgid "Danish"
+msgstr ""
+
+#: includes/settings-hips.php:99
+msgid "Dutch"
+msgstr ""
+
+#: includes/settings-hips.php:100
+msgid "English"
+msgstr ""
+
+#: includes/settings-hips.php:101
+msgid "Finnish"
+msgstr ""
+
+#: includes/settings-hips.php:102
+msgid "French"
+msgstr ""
+
+#: includes/settings-hips.php:103
+msgid "German"
+msgstr ""
+
+#: includes/settings-hips.php:104
+msgid "Italian"
+msgstr ""
+
+#: includes/settings-hips.php:105
+msgid "Japanese"
+msgstr ""
+
+#: includes/settings-hips.php:106
+msgid "Norwegian"
+msgstr ""
+
+#: includes/settings-hips.php:107
+msgid "Spanish"
+msgstr ""
+
+#: includes/settings-hips.php:108
+msgid "Swedish"
+msgstr ""
+
+#: includes/settings-hips.php:112
+msgid "Bitcoin Currency"
+msgstr ""
+
+#: includes/settings-hips.php:113
+msgid "Enable Bitcoin Currency"
+msgstr ""
+
+#: includes/settings-hips.php:115
+msgid ""
+"If enabled, an option to accept bitcoin will show on the checkout modal. "
+"Note: hips Checkout needs to be enabled and store currency must be set to "
+"USD."
+msgstr ""
+
+#: includes/settings-hips.php:120
+msgid "hips Checkout Image"
+msgstr ""
+
+#: includes/settings-hips.php:121
+msgid ""
+"Optionally enter the URL to a 128x128px image of your brand or product. e.g. "
+"<code>https://yoursite.com/wp-content/uploads/2013/09/yourimage.jpg</code>"
+msgstr ""
+
+#: includes/settings-hips.php:127
+msgid "Payment Request API"
+msgstr ""
+
+#: includes/settings-hips.php:128
+msgid "Enable Payment Request API"
+msgstr ""
+
+#: includes/settings-hips.php:130
+msgid ""
+"If enabled, users will be able to pay using the Payment Request API if "
+"supported by the browser."
+msgstr ""
+
+#: includes/settings-hips.php:135
+msgid "Apple Pay"
+msgstr ""
+
+#: includes/settings-hips.php:136
+#, php-format
+msgid ""
+"Enable Apple Pay. %1$sBy using Apple Pay, you agree to %2$s and %3$s's terms "
+"of service."
+msgstr ""
+
+#: includes/settings-hips.php:138
+msgid "If enabled, users will be able to pay with Apple Pay."
+msgstr ""
+
+#: includes/settings-hips.php:143
+msgid "Apple Pay Button Style"
+msgstr ""
+
+#: includes/settings-hips.php:144
+msgid "Button Style"
+msgstr ""
+
+#: includes/settings-hips.php:146
+msgid "Select the button style you would like to show."
+msgstr ""
+
+#: includes/settings-hips.php:150
+msgid "Black"
+msgstr ""
+
+#: includes/settings-hips.php:151
+msgid "White"
+msgstr ""
+
+#: includes/settings-hips.php:155
+msgid "Apple Pay Button Language"
+msgstr ""
+
+#: includes/settings-hips.php:156
+msgid ""
+"Enter the 2 letter ISO code for the language you would like your Apple Pay "
+"Button to display in. Reference available ISO codes here <code>http://www."
+"w3schools.com/tags/ref_language_codes.asp</code>"
+msgstr ""
+
+#: includes/settings-hips.php:162
+msgid "Saved Cards"
+msgstr ""
+
+#: includes/settings-hips.php:163
+msgid "Enable Payment via Saved Cards"
+msgstr ""
+
+#: includes/settings-hips.php:165
+msgid ""
+"If enabled, users will be able to pay with a saved card during checkout. "
+"Card details are saved on hips servers, not on your store."
+msgstr ""
+
+#: includes/settings-hips.php:170
+msgid "Logging"
+msgstr ""
+
+#: includes/settings-hips.php:171
+msgid "Log debug messages"
+msgstr ""
+
+#: includes/settings-hips.php:173
+msgid "Save debug messages to the WooCommerce System Status log."
+msgstr ""
+
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:3
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:5
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:9
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:10
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:14
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:15
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:4
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:6
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:10
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:11
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:15
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:3
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:5
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:9
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:10
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:14
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:3
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:5
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:9
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:10
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:14
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:3
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:5
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:9
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:10
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:14
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:3
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:5
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:9
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:10
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:14
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:6
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:10
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:11
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:16
+msgid "Hello World"
+msgstr ""
+
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:4
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:6
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:11
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:16
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:5
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:7
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:12
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:17
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:6
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:11
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:6
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:11
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:6
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:11
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:6
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:11
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:5
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:7
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:12
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:17
+msgctxt "verb"
+msgid "Post"
+msgstr ""
+
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:20
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:24
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:21
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:25
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:20
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:24
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:20
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:24
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:20
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:24
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:20
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:24
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:3
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:8
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:15
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:21
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:25
+#, php-format
+msgid "%d apple"
+msgid_plural "%d apples"
+msgstr[0] ""
+msgstr[1] ""
+
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:21
+#: node_modules/grunt-checktextdomain/test/expected/incorrect-domain-autocorrect.php:25
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:22
+#: node_modules/grunt-checktextdomain/test/expected/variable-domain-autocorrect.php:26
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:21
+#: node_modules/grunt-checktextdomain/test/fixtures/correct-domain.php:25
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:21
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain-autocorrect.php:25
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:21
+#: node_modules/grunt-checktextdomain/test/fixtures/incorrect-domain.php:25
+#: node_modules/grunt-checktextdomain/test/fixtures/missing-domain.php:25
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:4
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:9
+#: node_modules/grunt-checktextdomain/test/fixtures/plurals.php:16
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:22
+#: node_modules/grunt-checktextdomain/test/fixtures/variable-domain-autocorrect.php:26
+#, php-format
+msgctxt "noun, job positions"
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/basic-theme/exclude/file.php:3
+#: node_modules/grunt-wp-i18n/test/fixtures/plugin-include/plugin-include.php:6
+msgid "Exclude"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/plugin-include/include/file.php:2
+msgid "Include"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/add-domain.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:3
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:4
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-domains.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-domains.php:3
+msgid "String"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:6
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:7
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:8
+msgctxt "a string"
+msgid "String"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:9
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:10
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:11
+#, php-format
+msgid "1 Star"
+msgid_plural "%s Stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: A single line translators comment.
+#: node_modules/grunt-wp-i18n/test/fixtures/translator-comments/translator-comments.php:7
+msgid "A"
+msgstr ""
+
+#. translators: A
+#. multiline
+#. translators
+#. comment.
+#.
+#: node_modules/grunt-wp-i18n/test/fixtures/translator-comments/translator-comments.php:15
+msgid "B"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:182
+#, php-format
+msgid ""
+"hips is almost ready. To get started, <a href=\"%s\">set your hips "
+"account keys</a>."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:240
+#, php-format
+msgid ""
+"WooCommerce hips - The minimum PHP version required for this plugin is "
+"%1$s. You are running %2$s."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:246
+msgid "WooCommerce hips requires WooCommerce to be activated to work."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:250
+#, php-format
+msgid ""
+"WooCommerce hips - The minimum WooCommerce version required for this "
+"plugin is %1$s. You are running %2$s."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:256
+msgid "WooCommerce hips - cURL is not installed."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:271
+msgid "Settings"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:272
+msgid "Docs"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:273
+msgid "Support"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:303
+msgid ""
+"New Feature! hips now supports Apple Pay. Your customers can now purchase "
+"your products even faster. Apple Pay has been enabled by default."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:321
+msgid ""
+"New Feature! hips now supports Google Payment Request. Your customers can "
+"now use mobile phones with supported browsers such as Chrome to make "
+"purchases easier and faster."
+msgstr ""
+
+#: woocommerce-gateway-hips.php:468
+msgid "Unable to capture charge!"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:506
+msgid "Unable to refund charge!"
+msgstr ""
+
+#: woocommerce-gateway-hips.php:508
+#, php-format
+msgid "hips charge refunded (Charge ID: %s)"
+msgstr ""
