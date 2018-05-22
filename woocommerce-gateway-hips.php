@@ -3,8 +3,8 @@
  * Plugin Name: WooCommerce Hips Gateway
  * Plugin URI: 
  * Description: Take credit card payments on your store using Hips.
- * Author: Virtina
- * Author URI: https://virtina.com/
+ * Author: Hips AB
+ * Author URI: https://hips.com/
  * Version: 1.1.0
  * Requires at least: 4.4
  * Tested up to: 4.9.5
