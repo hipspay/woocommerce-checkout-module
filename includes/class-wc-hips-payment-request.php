@@ -4,7 +4,8 @@
  *
  * @package WooCommerce_hips/Classes/Payment_Request
  * @since   1.0.5
- * @version 1.1.0
+ * @version 1.1.2
+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -137,7 +138,8 @@ class WC_hips_Payment_Request {
 	 * Calculate and set shipping method.
 	 *
 	 * @since 1.0.6
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @param array $address
 	 */
 	public function calculate_shipping( $address = array() ) {

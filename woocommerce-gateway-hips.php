@@ -3,9 +3,9 @@
  * Plugin Name: WooCommerce Hips Gateway
  * Plugin URI: 
  * Description: Take credit card payments on your store using Hips.
- * Author: Hips AB
- * Author URI: https://hips.com/
- * Version: 1.1.0
+ * Author: Virtina
+ * Author URI: https://virtina.com/
+ * Version: 1.1.2
  * Requires at least: 4.4
  * Tested up to: 4.9.5
  * WC requires at least: 3.0
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Required minimums and constants
  */
-define( 'WC_HIPS_VERSION', '1.1.0' );
+define( 'WC_HIPS_VERSION', '1.1.2' );
 define( 'WC_HIPS_MIN_PHP_VER', '5.6.0' );
 define( 'WC_HIPS_MIN_WC_VER', '3.2' );
 define( 'WC_HIPS_MAIN_FILE', __FILE__ );
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		/**
 		 * Flag to indicate whether or not we need to load support for pre-orders.
 		 *
-		 * @version 1.1.0
+		 * @version 1.1.2
 		 *
 		 * @var bool
 		 */
@@ -198,7 +198,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		 * Updates the plugin version in db
 		 *
 		 * @since 1.0.7
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 * @return bool
 		 */
 		private static function _update_plugin_version() {
@@ -212,7 +213,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		 * Dismiss the Google Payment Request API Feature notice.
 		 *
 		 * @since 1.0.7
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 */
 		public function dismiss_request_api_notice() {
 			update_option( 'wc_hips_show_request_api_notice', 'no' );
@@ -223,7 +225,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		 * Handles upgrade routines.
 		 *
 		 * @since 1.0.7
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 */
 		public function install() {
 			if ( ! defined( 'WC_hips_INSTALLING' ) ) {
@@ -280,7 +283,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		/**
 		 * Get setting link.
 		 *
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 *
 		 * @return string Setting link
 		 */
@@ -620,7 +624,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		/**
 		 * Hide Shipping Calculator in Cart Page if Hips Checkout is enabled
 		 *
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 * @since 1.0.7	 
 		 * @return null
 		*/
@@ -633,7 +638,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		/**
 		 * Hide Shipping Calculator in Cart Page if Hips Checkout is enabled
 		 *
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 * @since 1.0.7	 
 		 * @return null
 		*/
@@ -646,7 +652,8 @@ if ( ! class_exists( 'WC_hips' ) ) :
 		/**
 		 * Create a page for Hips Checkout and Webhook with shortcode
 		 *
-		 * @version 1.1.0
+		 * @version 1.1.2
+
 		 * @since 1.0.7	 
 		 * @return null
 		*/
