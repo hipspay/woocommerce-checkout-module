@@ -12,7 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author 		WooThemes
  * @category 	Shortcodes
  * @package 	WooCommerce/Shortcodes/Checkout
- * @version     1.1.0
+ * @version     1.1.2
+
  */
 class WC_Hips_Shortcode_Checkout {
 
@@ -95,7 +96,8 @@ class WC_Hips_Shortcode_Checkout {
 		unset( WC()->session->hips_order_key );
 
 		// Empty current cart
-		WC()->cart->empty_cart();		
+		WC()->cart->empty_cart();
+
 		wc_get_template( 'checkout/thankyou.php', array( 'order' => $order ) );
 	}
 
@@ -156,7 +158,7 @@ class WC_Hips_Shortcode_Checkout {
 		}
 	}
 
-	public static function set_shipping_method( $order, $shipping ){
+	public static function set_shipping_method( $order, $shipping ) {
 
 		$order_id = $order->get_id();
 		$item_id = wc_add_order_item( $order_id, array(
@@ -178,42 +180,56 @@ class WC_Hips_Shortcode_Checkout {
         $order->calculate_totals();
 	}
 
+	public static function set_coupon( $order, $coupon ) {
+
+		$order_id = $coupon['order_id'];
+
+		if ( version_compare( WOOCOMMERCE_VERSION, '3.0' ) < 0 ) {
+            $item_id = $order->add_coupon( $coupon['coupon_code'], $coupon['coupon_amount'], $coupon['coupon_tax'] );
+        } else {
+            $item = new WC_Order_Item_Coupon();
+            $item->set_props( array(
+                'code'         => $coupon['coupon_code'],
+                'discount'     => $coupon['coupon_amount'],
+                'discount_tax' => $coupon['coupon_tax'],
+                'order_id'     => $order_id,
+            ) );
+            // $item_id = $item->save();
+            $coupon_data = new WC_Coupon( $coupon['coupon_code'] );
+            $item->add_meta_data( 'coupon_data', $coupon_data->get_data() );
+
+            /**
+			 * Action hook to adjust item before save.
+			 * @since 3.0.0
+			 */
+			do_action( 'woocommerce_checkout_create_order_coupon_item', $item, $coupon['coupon_code'], $coupon_data, $order );
+
+			// Add item to order and save.
+			$order->add_item( $item );
+        }
+
+        update_post_meta( $order_id, '_cart_discount', $coupon['coupon_amount'] );
+		update_post_meta( $order_id, '_cart_discount_tax', $coupon['coupon_tax'] );
+	}
+
 	public static function process_response( $response ) { 
 
 		if( ! empty( $response ) ) {
-
+			
+			$coupon = $items_data = array();
 			$order = wc_create_order( array( 'status' => 'wc-pending' ) );
 			$order_id = $order->get_id();
 
 			if( ! empty( $response->resource->cart->items ) ) {
 				foreach ( $response->resource->cart->items as $key => $value ) {
-					if( 'shipping_fee' != $value->type ) {
-
-						$product_id = $value->meta_data_1;
-						$variation_id = $value->meta_data_2; 
-
-						if( ! empty( $product_id ) ) {
-							$product = wc_get_product( $product_id );	
-
-							if( ! empty( $product ) ) {						
-								$item_id = wc_add_order_item( $order_id, array(
-					                    'order_item_name'       => $product->get_name(),
-					                    'order_item_type'       => 'line_item'
-					            ) );
-
-					             // Add line item meta.
-								if ( $item_id ) {
-									wc_add_order_item_meta( $item_id, '_qty', absint( $value->quantity ) );
-									wc_add_order_item_meta( $item_id, '_product_id', $product_id );
-									wc_add_order_item_meta( $item_id, '_variation_id', $variation_id );
-									wc_add_order_item_meta( $item_id, '_line_subtotal', wc_format_decimal( ( $value->unit_price - $value->tax ) / 100 ) );
-									wc_add_order_item_meta( $item_id, '_line_subtotal_tax', wc_format_decimal( $value->tax / 100 ) );
-									wc_add_order_item_meta( $item_id, '_line_total', wc_format_decimal( ( $value->price - $value->tax ) / 100 ) );
-									wc_add_order_item_meta( $item_id, '_line_tax', wc_format_decimal( $value->tax / 100 ) );
-								}
-							}
-						}
-					}
+					if( 'discount' == $value->type ) {
+						$coupon = array(
+							'coupon_code' => $value->name, 
+							'coupon_amount' => wc_format_decimal( absint( $value->price ) / 100 ), 
+							'coupon_tax' => wc_format_decimal( $value->tax / 100 ), 
+							'order_id' => $order_id, 
+						);					
+					}					
 				}
 			}
 
@@ -221,6 +237,8 @@ class WC_Hips_Shortcode_Checkout {
 				$_hips_order_id = $response->resource->id;
 							
 				update_post_meta( $order_id, '_hips_order_response', $response );
+				update_post_meta( $order_id, '_hips_payment_id', $response->resource->id );
+				update_post_meta( $order_id, '_hips_order_id', $response->resource->merchant_reference->order_id );
 				
 				if( ! empty( $response->resource->billing_address ) ) {
 
@@ -290,16 +308,53 @@ class WC_Hips_Shortcode_Checkout {
 					}
 				}
 
-				$order->set_customer_id( apply_filters( 'woocommerce_checkout_customer_id', get_current_user_id() ) );
+				$cart = json_decode( $response->resource->merchant_reference->meta_data_1 );
+
+				if( ! empty( $cart ) ) {
+					foreach ( $cart->cart_contents as $cart_item_key => $values ) {
+						
+						$product_id = $values->product_id;
+						$variation_id = $values->variation_id; 
+
+						if( ! empty( $product_id ) ) {
+							$product = wc_get_product( $product_id );	
+							
+							if( ! empty( $product ) ) {						
+								$item_id = wc_add_order_item( $order_id, array(
+					                    'order_item_name'       => $product->get_name(),
+					                    'order_item_type'       => 'line_item'
+					            ) );
+
+					             // Add line item meta.
+								if ( $item_id ) {
+									wc_add_order_item_meta( $item_id, '_qty', absint( $values->quantity ) );
+									wc_add_order_item_meta( $item_id, '_product_id', $product_id );
+									wc_add_order_item_meta( $item_id, '_variation_id', $variation_id );
+									wc_add_order_item_meta( $item_id, '_line_subtotal', $values->line_subtotal );
+									wc_add_order_item_meta( $item_id, '_line_subtotal_tax', $values->line_subtotal_tax );
+									wc_add_order_item_meta( $item_id, '_line_total', $values->line_total );
+									wc_add_order_item_meta( $item_id, '_line_tax', $values->line_tax );	
+								}
+							}
+						}						
+					}	
+				}
+
 				// Process Order received
 				if( $response->resource->require_shipping && ! empty( $response->resource->shipping ) ){  
 					self::set_shipping_method( $order, $response->resource->shipping );
 				}
+
+				if( ! empty( $coupon ) ) {  
+					self::set_coupon( $order, $coupon );
+				}
+
 				update_post_meta( $order_id, '_via_hips_checkout', 'yes' ); 
 				$hips_settings = get_option( 'woocommerce_Hips_settings' );  
 				update_post_meta( $order_id, '_hips_payment_captured', $hips_settings['capture'] );				
-
 				$order->set_order_key( 'wc_order_' . $response->resource->merchant_reference->order_id );
+				$order->calculate_totals();
+        		$order->save();
 
 				if( $hips_settings['capture'] == 'no' ){												
 					update_post_meta( $order_id, '_transaction_id', $response->resource->id, true );
@@ -316,7 +371,7 @@ class WC_Hips_Shortcode_Checkout {
 					$message = sprintf( __( 'Hips payment complete (Payment ID: %s)', 'woocommerce-gateway-hips' ), $response->resource->id );
 					$order->add_order_note( $message );	
 					self::log( 'Hips Payment Complete for the Order #' . $order_id . ', Payment ID', $response->resource->id );					
-				}							
+				}										
 			}
 		}
 	}
@@ -388,8 +443,13 @@ class WC_Hips_Shortcode_Checkout {
 
 		$cart_discount_total = WC()->cart->get_cart_discount_total();
 		$cart_discount_total_tax = WC()->cart->get_cart_discount_tax_total();
-		$total_discount = $cart_discount_total + $cart_discount_total_tax;
 
+		if( wc_tax_enabled() && wc_prices_include_tax() ) {
+			$total_discount = $cart_discount_total + $cart_discount_total_tax;
+		} else {
+			$total_discount = $cart_discount_total;
+		}
+		
 		foreach ( $cart as $cart_item_key => $values ) {
 
 			$product = $values['data']; 
@@ -426,11 +486,11 @@ class WC_Hips_Shortcode_Checkout {
 			$items[] = array(
 						'type' => 'discount',
 						'sku'  => '',
-						'name' => 'Discount',
+						'name' => WC()->session->applied_coupons[0],
 						'quantity' => 1,
 						'unit_price' => -( $total_discount * 100 ),
 						'discount_rate' => 0,
-						'vat_amount' => 0,
+						'vat_amount' => $cart_discount_total_tax,
 						'weight'	=> 0,						
 					);
 		}
@@ -452,6 +512,7 @@ class WC_Hips_Shortcode_Checkout {
 		$request->checkout_settings->extended_cart = 'true';
 		$request->require_shipping = 'true';
 		$request->express_shipping = 'true';  
+		$request->meta_data_1 = json_encode( WC()->cart );  
 
 		//Override Shipping 
 		if( $hips_settings['hips_shipping'] == 'yes' ){
@@ -484,9 +545,10 @@ class WC_Hips_Shortcode_Checkout {
 	public static function hips_webhook_callback() {
 
 		if( isset( $_GET['wc-hips-webhook'] ) && 'successful' == $_GET['wc-hips-webhook'] ) {
-			$response = json_decode( file_get_contents( 'php://input' ) );
+			$response = json_decode( file_get_contents( 'php://input' ) ); 
 
-			if( 'order.successful' == $response->event ) {
+			if( 'order.successful' == $response->event ) { 
+			 	 self::log( 'Hips API Response', $response );
 				self::process_response( $response );
 			}			
 		}

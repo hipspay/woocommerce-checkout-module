@@ -338,7 +338,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Localize hips messages based on code
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @return array
 	 */
 
@@ -363,7 +364,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Load admin scripts.
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 */
 
 	public function admin_scripts() {
@@ -861,7 +863,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Sends the failed order email to admin
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7
 	 * @param int $order_id
 	 * @return null
@@ -876,7 +879,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Redirect to Hips Checkout page instead of default Checkout page if Hips Checkout is enabled
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7	 
 	 * @return null
 	 */
@@ -890,7 +894,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Shipping Method for Hips Checkout 
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7 
 	 * @return null
 	*/
@@ -903,7 +908,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Shipping Method for Hips Checkout 
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7	 
 	 * @return null
 	*/
@@ -917,7 +923,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Returns in Hips order recieved page 
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7	 
 	 * @return null
 	*/
@@ -934,7 +941,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Credit Card Fields for Hips Checkout 
 	 *
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 * @since 1.0.7 
 	 * @return null
 	*/
@@ -961,7 +969,8 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Logs
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 *
 	 * @param string $message
 	 */

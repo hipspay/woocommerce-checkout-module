@@ -131,7 +131,8 @@ class WC_HIPS_API {
 	 * Logs
 	 *
 	 * @since 1.0.5
-	 * @version 1.1.0
+	 * @version 1.1.2
+
 	 *
 	 * @param string $message
 	 */
