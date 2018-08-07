@@ -3,7 +3,7 @@ Contributors: automattic, woothemes, mikejolley, akeda, royho, mattyza, slash1an
 Tags: credit card, hips, woocommerce
 Requires at least: 4.4
 Tested up to: 4.9.5
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -91,7 +91,7 @@ If you get stuck, you can ask for help in the Plugin Forum.
 5. Using the hips checkout modal.
 
 == Changelog ==
-= 1.1.2
+= 1.1.3
  - 2018-05-18 =
 * Update the order status on verifying Webhook 
 * Update the hook for Google Analytics

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author 		WooThemes
  * @category 	Shortcodes
  * @package 	WooCommerce/Shortcodes/Checkout
- * @version     1.1.2
+ * @version     1.1.3
 
  */
 class WC_Hips_Shortcode_Checkout {
@@ -45,17 +45,17 @@ class WC_Hips_Shortcode_Checkout {
 		}
 
 		// Backwards compat with old pay and thanks link arguments
-		if ( isset( $_GET['order'] ) && isset( $_GET['key'] ) ) {
+		if ( isset( $_REQUEST['order'] ) && isset( $_REQUEST['key'] ) ) {
 			wc_deprecated_argument( __CLASS__ . '->' . __FUNCTION__, '2.1', '"order" is no longer used to pass an order ID. Use the order-pay or order-received endpoint instead.' );
 
 			// Get the order to work out what we are showing
-			$order_id = absint( $_GET['order'] );
+			$order_id = absint( $_REQUEST['order'] );
 			$order    = wc_get_order( $order_id );
 
 			if ( $order && $order->has_status( 'pending' ) ) {
-				$wp->query_vars['order-pay'] = absint( $_GET['order'] );
+				$wp->query_vars['order-pay'] = absint( $_REQUEST['order'] );
 			} else {
-				$wp->query_vars['order-received'] = absint( $_GET['order'] );
+				$wp->query_vars['order-received'] = absint( $_REQUEST['order'] );
 			}
 		}
 
