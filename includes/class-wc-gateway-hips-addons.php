@@ -424,7 +424,7 @@ class WC_Gateway_hips_Addons extends WC_Gateway_hips {
 	 * Logs
 	 *
 	 * @since 1.0.5
-	 * @version 1.1.2
+	 * @version 1.1.3
 
 	 *
 	 * @param string $message
