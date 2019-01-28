@@ -1,0 +1,1 @@
+{ "name": "hipspay/woocommerce-checkout-module", "type": "wordpress-plugin", "require": { "composer/installers": "*" } }
