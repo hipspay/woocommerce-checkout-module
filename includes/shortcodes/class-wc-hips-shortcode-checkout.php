@@ -660,7 +660,7 @@ class WC_Hips_Shortcode_Checkout {
 	public static function log( $text, $message ) {
 		$log_entry = '';
 		$log = new WC_Logger(); 
-		$log_entry .= $text . ': ' . print_r( $message, true ); 
+		$log_entry = $text . ': ' . print_r( $message, true ); 
 		$log->add( 'woocommerce-gateway-hips', $log_entry );
 	}
 }
