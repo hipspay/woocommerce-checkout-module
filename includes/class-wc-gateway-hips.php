@@ -18,6 +18,13 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	public $capture;
 
 	/**
+	 * Should we fulfill the orders
+	 *
+	 * @var bool
+	 */
+	public $fulfill;
+
+	/**
 	 * Alternate credit card statement name
 	 *
 	 * @var bool
@@ -95,6 +102,13 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	public $logging;
 
 	/**
+	 * Endpoint
+	 *
+	 * @var string
+	 */
+	public $endpoint;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -134,6 +148,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 		$this->enabled                 	= $this->get_option( 'enabled' );
 		$this->testmode                	= 'yes' === $this->get_option( 'testmode' );
 		$this->capture                 	= 'yes' === $this->get_option( 'capture', 'yes' );
+		$this->fulfill                 	= 'yes' === $this->get_option( 'auto_fulfill', 'yes' );
 		$this->statement_descriptor    	= $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$this->hips_checkout         	= 'yes' === $this->get_option( 'hips_checkout' );
 		$this->hips_checkout_page_id    = 'yes' === $this->get_option( 'hips_checkout_page_id' );
@@ -338,7 +353,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Localize hips messages based on code
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @return array
 	 */
@@ -364,7 +379,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Load admin scripts.
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 */
 
@@ -459,6 +474,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 		$post_data['amount'] = $this->get_hips_amount( $order->get_total(), $post_data['purchase_currency'] );
 		$post_data['description'] = sprintf( __( '%1$s - Order %2$s', 'woocommerce-gateway-hips' ), $this->statement_descriptor, $order->get_order_number() );
 		$post_data['capture']     = $this->capture ? 'true' : 'false';
+		$post_data['fulfill']     = $this->fulfill ? 'true' : 'false';
 
 		$billing_email      	= version_compare( WC_VERSION, '3.0.0', '<' ) ? $order->billing_email : $order->get_billing_email();
 		$billing_first_name 	= version_compare( WC_VERSION, '3.0.0', '<' ) ? $order->billing_first_name : $order->get_billing_first_name();
@@ -496,6 +512,9 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 		$order_id 									= $order->get_id();	 
 		$post_data['hooks']['user_return_url_on_success'] 	= esc_url( wc_get_checkout_url() ) . 'order-received/' . $order_id . '/?key=' . $order_key;
 		$post_data['hooks']['user_return_url_on_fail'] 		= esc_url( wc_get_checkout_url() );
+
+		$hips_webhook_page_id = get_option( 'hips_webhook_page_id' );
+		$post_data['hooks']['webhook_url'] = get_permalink( $hips_webhook_page_id );
 
 		/**
 		 * Filter the return value of the WC_Payment_Gateway_CC::generate_payment_request.
@@ -736,7 +755,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 */
 
 	public function process_response( $response, $order ) {
-		$this->log( 'Processing response: ' . print_r( $response, true ) );
+		$this->log( 'Processing response test: ' . print_r( $response, true ) );
 
 		$order_id = version_compare( WC_VERSION, '3.0.0', '<' ) ? $order->id : $order->get_id();
 
@@ -744,14 +763,18 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 		update_post_meta( $order_id, '_hips_payment_id', $response->id );
 		update_post_meta( $order_id, '_hips_order_id', $response->order->id );
 		update_post_meta( $order_id, '_hips_payment_captured', $response->status == 'successful' ? 'yes' : 'no' );
-
+		
 	
 		if ( $response->status == 'successful') {
-			$order->payment_complete( $response->id );
-
+			
+			//$order->payment_complete( $response->id );
+			$order->update_status( 'on-hold', sprintf( __( 'Order status changed from %s to On Hold.', 'woocommerce-gateway-hips' ), 'Pending' ) );
 			$message = sprintf( __( 'Hips payment complete (Payment ID: %s)', 'woocommerce-gateway-hips' ), $response->id );
 			$order->add_order_note( $message );
 			$this->log( 'Success: ' . $message );
+
+			if( 'yes' == $this->fulfill )
+					$order->update_status( 'wc-completed', sprintf( __( 'Order status changed from %s to Completed.', 'woocommerce-gateway-hips' ), 'Processing' ) );
 
 		} else {
 			update_post_meta( $order_id, '_transaction_id', $response->id, true );
@@ -863,7 +886,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Sends the failed order email to admin
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7
 	 * @param int $order_id
@@ -879,7 +902,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Redirect to Hips Checkout page instead of default Checkout page if Hips Checkout is enabled
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7	 
 	 * @return null
@@ -894,7 +917,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Shipping Method for Hips Checkout 
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7 
 	 * @return null
@@ -908,7 +931,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Shipping Method for Hips Checkout 
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7	 
 	 * @return null
@@ -923,7 +946,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Returns in Hips order recieved page 
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7	 
 	 * @return null
@@ -941,7 +964,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	/**
 	 * Set Custom Credit Card Fields for Hips Checkout 
 	 *
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @since 1.0.7 
 	 * @return null
@@ -969,7 +992,7 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * Logs
 	 *
 	 * @since 1.0.7
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 *
 	 * @param string $message

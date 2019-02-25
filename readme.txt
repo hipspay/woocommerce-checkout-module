@@ -2,8 +2,8 @@
 Contributors: automattic, woothemes, mikejolley, akeda, royho, mattyza, slash1andy, woosteve, spraveenitpro, mikedmoore, fernashes, shellbeezy, danieldudzic, mikaey, dsmithweb, fullysupportedphil, corsonr, deskroid, luminus, tiagonoronha, zandyring, bor0
 Tags: credit card, hips, woocommerce
 Requires at least: 4.4
-Tested up to: 4.9.5
-Stable tag: 1.1.3
+Tested up to: 3.5.4
+Stable tag: 1.1.4
 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -91,6 +91,12 @@ If you get stuck, you can ask for help in the Plugin Forum.
 5. Using the hips checkout modal.
 
 == Changelog ==
+= 1.1.4
+  - 2019-02-25 =
+  * Fix the order duplicating issue
+  * Fix the missing customer info issue
+  * Added auto-fulfill option
+
 = 1.1.3
  - 2018-05-18 =
 * Update the order status on verifying Webhook 

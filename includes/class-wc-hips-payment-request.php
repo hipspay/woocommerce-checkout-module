@@ -4,7 +4,7 @@
  *
  * @package WooCommerce_hips/Classes/Payment_Request
  * @since   1.0.5
- * @version 1.1.3
+ * @version 1.1.4
 
  */
 
@@ -138,7 +138,7 @@ class WC_hips_Payment_Request {
 	 * Calculate and set shipping method.
 	 *
 	 * @since 1.0.6
-	 * @version 1.1.3
+	 * @version 1.1.4
 
 	 * @param array $address
 	 */

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author 		WooThemes
  * @category 	Shortcodes
  * @package 	WooCommerce/Shortcodes/Checkout
- * @version     1.1.3
+ * @version     1.1.4
 
  */
 class WC_Hips_Shortcode_Checkout {
@@ -143,7 +143,7 @@ class WC_Hips_Shortcode_Checkout {
 				$response = WC_HIPS_API::call( $request, 'orders' );
 
 				if( ! empty( $response->error ) ){					
-					 
+					
 					$message = $response->error;
 					if( is_object( $response->error ) ){
 						$message = $response->error->message;
@@ -212,166 +212,206 @@ class WC_Hips_Shortcode_Checkout {
 		update_post_meta( $order_id, '_cart_discount_tax', $coupon['coupon_tax'] );
 	}
 
-	public static function process_response( $response ) { 
+	public static function process_response( $response ) {
 
 		if( ! empty( $response ) ) {
+			$_hips_order_id = $response->resource->id;
 			
-			$coupon = $items_data = array();
-			$order = wc_create_order( array( 'status' => 'wc-pending' ) );
-			$order_id = $order->get_id();
+			$args = array(
+				'post_type' => 'shop_order',
+				'post_status' => array('wc-pending', 'wc-processing', 'wc-on-hold', 'wc-completed', 'wc-cancelled', 'wc-refunded', 'wc-failed'),
+				'meta_key'   => '_hips_order_id',
+				'meta_value' => $response->resource->merchant_reference->order_id
+			);
+			$posts = new WP_Query( $args );
+			if( ! $posts->have_posts() ) {
+				$coupon = $items_data = array();
+				$order = wc_create_order( array( 'status' => 'wc-pending' ) );
+				$order_id = $order->get_id();
 
-			if( ! empty( $response->resource->cart->items ) ) {
-				foreach ( $response->resource->cart->items as $key => $value ) {
-					if( 'discount' == $value->type ) {
-						$coupon = array(
-							'coupon_code' => $value->name, 
-							'coupon_amount' => wc_format_decimal( absint( $value->price ) / 100 ), 
-							'coupon_tax' => wc_format_decimal( $value->tax / 100 ), 
-							'order_id' => $order_id, 
-						);					
-					}					
+				if( ! empty( $response->resource->cart->items ) ) {
+					foreach ( $response->resource->cart->items as $key => $value ) {
+						if( 'discount' == $value->type ) {
+							$coupon = array(
+								'coupon_code' => $value->name, 
+								'coupon_amount' => wc_format_decimal( absint( $value->price ) / 100 ), 
+								'coupon_tax' => wc_format_decimal( $value->tax / 100 ), 
+								'order_id' => $order_id, 
+							);					
+						}					
+					}
 				}
-			}
 
-			if( isset( $response->resource->status ) && 'successful' == $response->resource->status ) {
-				$_hips_order_id = $response->resource->id;
+				if( $response->resource->status ) {
+								
+					update_post_meta( $order_id, '_hips_order_response', $response );
+					update_post_meta( $order_id, '_hips_payment_id', $response->resource->id );
+					update_post_meta( $order_id, '_hips_order_id', $response->resource->merchant_reference->order_id );
+					
+					if( ! empty( $response->resource->billing_address ) ) {
+
+						// Update Billing, Shipping, Payment Details 
+						$order_billing_props = array(					
 							
-				update_post_meta( $order_id, '_hips_order_response', $response );
-				update_post_meta( $order_id, '_hips_payment_id', $response->resource->id );
-				update_post_meta( $order_id, '_hips_order_id', $response->resource->merchant_reference->order_id );
-				
-				if( ! empty( $response->resource->billing_address ) ) {
+							'billing_first_name'   => $response->resource->billing_address->given_name,
+							'billing_last_name'    => $response->resource->billing_address->family_name,
+							'billing_company'      => $response->resource->billing_address->company_name,
+							'billing_address_1'    => $response->resource->billing_address->street_address,
+							'billing_address_2'    => $response->resource->billing_address->street_number,
+							'billing_city'         => $response->resource->billing_address->city,
+							'billing_postcode'     => $response->resource->billing_address->postal_code,
+							'billing_country'      => $response->resource->billing_address->country,
+							'billing_email'        => $response->resource->billing_address->email,
+							'billing_phone'        => $response->resource->billing_address->phone_mobile,								
+						);
+					}			
 
-					// Update Billing, Shipping, Payment Details 
-					$order_billing_props = array(					
+					if( $response->resource->shipping_address->is_billing ){
+						$order_shipping_props = array(						
 						
-						'billing_first_name'   => $response->resource->billing_address->given_name,
-						'billing_last_name'    => $response->resource->billing_address->family_name,
-						'billing_company'      => $response->resource->billing_address->company_name,
-						'billing_address_1'    => $response->resource->billing_address->street_address,
-						'billing_address_2'    => $response->resource->billing_address->street_number,
-						'billing_city'         => $response->resource->billing_address->city,
-						'billing_postcode'     => $response->resource->billing_address->postal_code,
-						'billing_country'      => $response->resource->billing_address->country,
-						'billing_email'        => $response->resource->billing_address->email,
-						'billing_phone'        => $response->resource->billing_address->phone_mobile,								
+							'shipping_first_name'  => $response->resource->billing_address->given_name,
+							'shipping_last_name'   => $response->resource->billing_address->family_name,
+							'shipping_company'     => $response->resource->billing_address->company_name,
+							'shipping_address_1'   => $response->resource->billing_address->street_address,
+							'shipping_address_2'   => $response->resource->billing_address->street_number,
+							'shipping_city'        => $response->resource->billing_address->city,
+							'shipping_postcode'    => $response->resource->billing_address->postal_code,
+							'shipping_country'     => $response->resource->billing_address->country,				
+						);
+
+					} else {
+						$order_shipping_props = array(						
+						
+							'shipping_first_name'  => $response->resource->shipping_address->given_name,
+							'shipping_last_name'   => $response->resource->shipping_address->family_name,
+							'shipping_company'     => $response->resource->shipping_address->company_name,
+							'shipping_address_1'   => $response->resource->shipping_address->street_address,
+							'shipping_address_2'   => $response->resource->shipping_address->street_number,
+							'shipping_city'        => $response->resource->shipping_address->city,
+							'shipping_postcode'    => $response->resource->shipping_address->postal_code,
+							'shipping_country'     => $response->resource->shipping_address->country,
+						);
+					}
+
+					$order_payment_props =	array(						
+						
+						'payment_method'       => 'hips',
+						'payment_method_title' => 'Hips',
+						'transaction_id'       => $_hips_order_id,							
+						'created_via'          => 'checkout',							
 					);
-				}			
 
-				if( $response->resource->shipping_address->is_billing ){
-					$order_shipping_props = array(						
-					
-						'shipping_first_name'  => $response->resource->billing_address->given_name,
-						'shipping_last_name'   => $response->resource->billing_address->family_name,
-						'shipping_company'     => $response->resource->billing_address->company_name,
-						'shipping_address_1'   => $response->resource->billing_address->street_address,
-						'shipping_address_2'   => $response->resource->billing_address->street_number,
-						'shipping_city'        => $response->resource->billing_address->city,
-						'shipping_postcode'    => $response->resource->billing_address->postal_code,
-						'shipping_country'     => $response->resource->billing_address->country,				
-					);
+					$order_props = array_merge( $order_billing_props, $order_shipping_props, $order_payment_props );
+					$customer_id =	self::create_customer( $order_billing_props );
 
-				} else {
-					$order_shipping_props = array(						
-					
-						'shipping_first_name'  => $response->resource->shipping_address->given_name,
-						'shipping_last_name'   => $response->resource->shipping_address->family_name,
-						'shipping_company'     => $response->resource->shipping_address->company_name,
-						'shipping_address_1'   => $response->resource->shipping_address->street_address,
-						'shipping_address_2'   => $response->resource->shipping_address->street_number,
-						'shipping_city'        => $response->resource->shipping_address->city,
-						'shipping_postcode'    => $response->resource->shipping_address->postal_code,
-						'shipping_country'     => $response->resource->shipping_address->country,
-					);
-				}
+					if( ! empty( $order_props ) ) {
+						foreach ( $order_props as $key => $value ) {
+							if ( is_callable( array( $order, "set_{$key}" ) ) ) {
+								$order->{"set_{$key}"}( $value );
 
-				$order_payment_props =	array(						
-					
-					'payment_method'       => 'hips',
-					'payment_method_title' => 'Hips',
-					'transaction_id'       => $_hips_order_id,							
-					'created_via'          => 'checkout',							
-				);
-
-				$order_props = array_merge( $order_billing_props, $order_shipping_props, $order_payment_props );
-				$customer_id =	self::create_customer( $order_billing_props );
-
-				if( ! empty( $order_props ) ) {
-					foreach ( $order_props as $key => $value ) {
-						if ( is_callable( array( $order, "set_{$key}" ) ) ) {
-							$order->{"set_{$key}"}( $value );
-
-						// Store custom fields prefixed with wither shipping_ or billing_. This is for backwards compatibility with 2.6.x.
-						} elseif ( 0 === stripos( $key, 'billing_' ) || 0 === stripos( $key, 'shipping_' ) ) {
-							$order->update_meta_data( '_' . $key, $value );
+							// Store custom fields prefixed with wither shipping_ or billing_. This is for backwards compatibility with 2.6.x.
+							} elseif ( 0 === stripos( $key, 'billing_' ) || 0 === stripos( $key, 'shipping_' ) ) {
+								$order->update_meta_data( '_' . $key, $value );
+							}
 						}
 					}
-				}
 
-				$cart = json_decode( $response->resource->merchant_reference->meta_data_1 );
+					$cart = json_decode( $response->resource->merchant_reference->meta_data_1 );
 
-				if( ! empty( $cart ) ) {
-					foreach ( $cart->cart_contents as $cart_item_key => $values ) {
-						
-						$product_id = $values->product_id;
-						$variation_id = $values->variation_id; 
-
-						if( ! empty( $product_id ) ) {
-							$product = wc_get_product( $product_id );	
+					if( ! empty( $cart ) ) {
+						foreach ( $cart->cart_contents as $cart_item_key => $values ) {
 							
-							if( ! empty( $product ) ) {						
-								$item_id = wc_add_order_item( $order_id, array(
-					                    'order_item_name'       => $product->get_name(),
-					                    'order_item_type'       => 'line_item'
-					            ) );
+							$product_id = $values->product_id;
+							$variation_id = $values->variation_id; 
 
-					             // Add line item meta.
-								if ( $item_id ) {
-									wc_add_order_item_meta( $item_id, '_qty', absint( $values->quantity ) );
-									wc_add_order_item_meta( $item_id, '_product_id', $product_id );
-									wc_add_order_item_meta( $item_id, '_variation_id', $variation_id );
-									wc_add_order_item_meta( $item_id, '_line_subtotal', $values->line_subtotal );
-									wc_add_order_item_meta( $item_id, '_line_subtotal_tax', $values->line_subtotal_tax );
-									wc_add_order_item_meta( $item_id, '_line_total', $values->line_total );
-									wc_add_order_item_meta( $item_id, '_line_tax', $values->line_tax );	
+							if( ! empty( $product_id ) ) {
+								$product = wc_get_product( $product_id );	
+								
+								if( ! empty( $product ) ) {						
+									$item_id = wc_add_order_item( $order_id, array(
+											'order_item_name'       => $product->get_name(),
+											'order_item_type'       => 'line_item'
+									) );
+
+									// Add line item meta.
+									if ( $item_id ) {
+										wc_add_order_item_meta( $item_id, '_qty', absint( $values->quantity ) );
+										wc_add_order_item_meta( $item_id, '_product_id', $product_id );
+										wc_add_order_item_meta( $item_id, '_variation_id', $variation_id );
+										wc_add_order_item_meta( $item_id, '_line_subtotal', $values->line_subtotal );
+										wc_add_order_item_meta( $item_id, '_line_subtotal_tax', $values->line_subtotal_tax );
+										wc_add_order_item_meta( $item_id, '_line_total', $values->line_total );
+										wc_add_order_item_meta( $item_id, '_line_tax', $values->line_tax );	
+									}
 								}
-							}
-						}						
-					}	
-				}
-
-				// Process Order received
-				if( $response->resource->require_shipping && ! empty( $response->resource->shipping ) ){  
-					self::set_shipping_method( $order, $response->resource->shipping );
-				}
-
-				if( ! empty( $coupon ) ) {  
-					self::set_coupon( $order, $coupon );
-				}
-
-				update_post_meta( $order_id, '_via_hips_checkout', 'yes' ); 
-				$hips_settings = get_option( 'woocommerce_Hips_settings' );  
-				update_post_meta( $order_id, '_hips_payment_captured', $hips_settings['capture'] );				
-				$order->set_order_key( 'wc_order_' . $response->resource->merchant_reference->order_id );
-				$order->calculate_totals();
-        		$order->save();
-
-				if( $hips_settings['capture'] == 'no' ){												
-					update_post_meta( $order_id, '_transaction_id', $response->resource->id, true );
-					
-					if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
-						version_compare( WC_VERSION, '3.0.0', '<' ) ? $order->reduce_order_stock() : wc_reduce_stock_levels( $order_id );
+							}						
+						}	
 					}
 
-					$order->update_status( 'on-hold', sprintf( __( 'Hips payment %s (Authorize ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-hips' ), 'authorised' , $response->resource->id ) );	
-					
-				} else {
+					// Process Order received
+					if( $response->resource->require_shipping && ! empty( $response->resource->shipping ) ){  
+						self::set_shipping_method( $order, $response->resource->shipping );
+					}
 
-					$order->payment_complete( $response->resource->id );
-					$message = sprintf( __( 'Hips payment complete (Payment ID: %s)', 'woocommerce-gateway-hips' ), $response->resource->id );
-					$order->add_order_note( $message );	
-					self::log( 'Hips Payment Complete for the Order #' . $order_id . ', Payment ID', $response->resource->id );					
-				}										
+					if( ! empty( $coupon ) ) {  
+						self::set_coupon( $order, $coupon );
+					}
+
+					update_post_meta( $order_id, '_via_hips_checkout', 'yes' ); 
+					$hips_settings = get_option( 'woocommerce_Hips_settings' );
+					update_post_meta( $order_id, '_hips_payment_captured', $hips_settings['capture'] );				
+					$order->set_order_key( 'wc_order_' . $response->resource->merchant_reference->order_id );
+					$order->calculate_totals();
+					$order->save();
+
+					if( $hips_settings['capture'] == 'no' ){
+						update_post_meta( $order_id, '_transaction_id', $response->resource->id, true );
+						
+						if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
+							version_compare( WC_VERSION, '3.0.0', '<' ) ? $order->reduce_order_stock() : wc_reduce_stock_levels( $order_id );
+						}
+
+						$order->update_status( 'on-hold', sprintf( __( 'Hips payment %s (Authorize ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-hips' ), 'authorised' , $response->resource->id ) );	
+						
+					} else {
+						if( 'successful' == $response->resource->status ) {
+							//$order->payment_complete( $response->resource->id );
+							$order->update_status( 'on-hold', sprintf( __( 'Order status changed from %s to On Hold.', 'woocommerce-gateway-hips' ), 'Pending' ) );
+							$message = sprintf( __( 'Hips payment complete (Payment ID: %s)', 'woocommerce-gateway-hips' ), $response->resource->id );
+							$order->add_order_note( $message );	
+							self::log( 'Hips Payment Complete for the Order #' . $order_id . ', Payment ID', $response->resource->id );
+						}					
+					}										
+					if( 'yes' == $hips_settings['auto_fulfill'] ){
+						if( 'successful' == $response->resource->status )
+							$order->update_status( 'wc-processing', sprintf( __( 'Order status changed from %s to Completed.', 'woocommerce-gateway-hips' ), 'Processing' ) );
+					}
+				}
+			}
+			else{
+				$posts->the_post();
+				if( 'successful' == $response->resource->status ) {
+					$order_status = 'wc-on-hold';
+					$order_status_name = 'On Hold';
+				}
+				if( 'awaiting_payments' == $response->resource->status ) {
+					$order_status = 'wc-pending';
+					$order_status_name = 'Payment Pending';
+				}
+				if( 'expired' == $response->resource->status ) {
+					$order_status = 'wc-failed';
+					$order_status_name = 'Failed';
+				}
+				if( 'pending' == $response->resource->status ) {
+					$order_status = 'wc-on-hold';
+					$order_status_name = 'On Hold';
+				}
+
+				$order = wc_get_order(get_the_id());
+				$order->update_status( $order_status, sprintf( __( 'Order status changed from %s to %s.', 'woocommerce-gateway-hips' ), $order->get_status( ), $order_status ) );
+				
+				if( 'yes' == $hips_settings['auto_fulfill'] && $order_status == 'wc-processing' )
+					$order->update_status( 'wc-processing', sprintf( __( 'Order status changed from %s to Processing.', 'woocommerce-gateway-hips' ), 'Processing' ) );
 			}
 		}
 	}
@@ -523,11 +563,12 @@ class WC_Hips_Shortcode_Checkout {
 			$request->express_shipping = 'false';  
 		}		
 		
-		$request->fulfill = 'true';
-		// Authorize and Capture Management
-		if( $hips_settings['capture'] == 'no' ){
-			$request->fulfill = 'false';
-		}
+		if( $hips_settings['auto_fulfill'] == 'yes' )
+			$request->fulfill = 'true';
+		
+			// Authorize and Capture Management
+		if( $hips_settings['capture'] == 'yes' )
+			$request->capture = 'true';
 		
 		$request->hooks = new stdClass();
 		$hips_checkout_page_id = get_option( 'hips_checkout_page_id' );
@@ -538,24 +579,86 @@ class WC_Hips_Shortcode_Checkout {
 		$request->hooks->terms_url = get_permalink( get_option( 'woocommerce_terms_page_id' ) );
 		$request->hooks->webhook_url = add_query_arg( array( 'wc-hips-webhook' => 'successful' ), get_permalink( $hips_webhook_page_id ) ); 
 		self::log( 'Hips API Request', $request );
-		 
+		
 		return $request;
 	}
 
 	public static function hips_webhook_callback() {
+		$response = json_decode( file_get_contents( 'php://input' ) ); 
+		if( ! empty($response) ){
+			//self::log( 'Hips API Response Webhook', $response );
+			if( isset( $_GET['wc-hips-webhook'] ) && 'successful' == $_GET['wc-hips-webhook'] ) {
 
-		if( isset( $_GET['wc-hips-webhook'] ) && 'successful' == $_GET['wc-hips-webhook'] ) {
-			$response = json_decode( file_get_contents( 'php://input' ) ); 
+				if( 'order.successful' == $response->event ) { 
+					self::process_response( $response );
+				}	
+				elseif( 'order.fulfilled' == $response->event && 1 == $response->resource->fulfilled ) {
+					$args = array(
+						'post_type' => 'shop_order',
+						'post_status' => array('wc-pending', 'wc-processing', 'wc-on-hold', 'wc-completed', 'wc-cancelled', 'wc-refunded', 'wc-failed'),
+						'meta_key'   => '_hips_order_id',
+						'meta_value' => $response->resource->merchant_reference->order_id
+					);
+					$posts = new WP_Query( $args );
+					if( $posts->have_posts() ) {
+						$posts->the_post();
+						$order_id = get_the_id();	
+						self::fulfill_order( $order_id, 'wc-processing' );
+					}
+				}
+			}
+			else{
+				if( 'payment.created' == $response->event ){
+					$order_id = $response->resource->merchant_order_id;
+					$status = 'wc-pending';
+				}
+				if( 'order.successful' == $response->event ){
+					$order_id = $response->resource->merchant_reference->order_id;
+					$status = 'wc-on-hold';
+					if( 1 == $response->resource->fulfilled )
+						$status = 'wc-processing';
+				}
+				if( 'payment.successful' == $response->event ){
+					$order_id = $response->resource->merchant_order_id;
+					$status = 'wc-on-hold';
+					if( 1 == $response->resource->fulfilled )
+						$status = 'wc-processing';
+				}
+				if( ( 'order.fulfilled' == $response->event && 1 == $response->resource->fulfilled ) ) {
+					$order_id = $response->resource->merchant_reference->order_id;
+					$status = 'wc-processing';				
+				}
 
-			if( 'order.successful' == $response->event ) { 
-			 	 self::log( 'Hips API Response', $response );
-				self::process_response( $response );
-			}			
+				if( 'payment.purchase.successful' == $response->event ){
+					$order_id = $response->resource->merchant_order_id;
+					$status = 'wc-on-hold';
+				}
+
+				if( 'order.modified' == $response->event && 1 ==  $response->resource->fulfilled ){
+					$order_id = $response->resource->merchant_reference->order_id;
+					$status = 'wc-processing';
+				}
+
+				if( $status && $order_id ) {
+					$order = wc_get_order($order_id);
+					//self::log( 'Order status', $order->get_status() );
+					if( 'processing' != $order->get_status() )
+						self::fulfill_order( $order_id, $status );
+				}
+			}
 		}
 	}
 
-	public static function log( $text, $message ) {
+	public static function fulfill_order( $order_id, $status ) {
+		$order = wc_get_order($order_id);
+		$order->update_status( 
+			$status, 
+			sprintf( __( 'Order status changed from %s to %s.', 'woocommerce-gateway-hips' ), $order->get_status( ), $status ) 
+		);
+	}
 
+	public static function log( $text, $message ) {
+		$log_entry = '';
 		$log = new WC_Logger(); 
 		$log_entry .= $text . ': ' . print_r( $message, true ); 
 		$log->add( 'woocommerce-gateway-hips', $log_entry );
