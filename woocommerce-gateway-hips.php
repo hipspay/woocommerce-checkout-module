@@ -5,7 +5,7 @@
  * Description: Take credit card payments on your store using Hips.
  * Author: Virtina
  * Author URI: https://virtina.com/
- * Version: 1.1.4
+ * Version: 1.1.5
  * Requires at least: 4.4
  * Tested up to: 5.0.3
  * WC requires at least: 3.0
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Required minimums and constants
  */
-define( 'WC_HIPS_VERSION', '1.1.4' );
+define( 'WC_HIPS_VERSION', '1.1.5' );
 define( 'WC_HIPS_MIN_PHP_VER', '5.6.0' );
 define( 'WC_HIPS_MIN_WC_VER', '3.2' );
 define( 'WC_HIPS_MAIN_FILE', __FILE__ );
