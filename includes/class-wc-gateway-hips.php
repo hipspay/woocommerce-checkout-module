@@ -258,9 +258,9 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 		}
 
 		// Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected.
-		if ( ( function_exists( 'get_woocommerce_currency' ) ) && ( get_woocommerce_currency() != 'SEK' ) ) {
+		/*if ( ( function_exists( 'get_woocommerce_currency' ) ) && ( get_woocommerce_currency() != 'SEK' ) ) {
 			echo '<div class="error hips-ssl-message"><p>' . sprintf( __( 'Hips is enabled, but the currency is set as %s; Please ensure currency is set as SEK.  Hips will only work with the currency SEK.', 'woocommerce-gateway-hips' ), get_woocommerce_currency()  ) . '</p></div>';
-		}
+		}*/
 	}
 
 	/**
@@ -908,10 +908,11 @@ class WC_Gateway_hips extends WC_Payment_Gateway_CC {
 	 * @return null
 	 */
 	public function redirect_to_hips_checkout_page() {
-		
-		$hips_checkout_page_id = get_option( 'hips_checkout_page_id' );
-		wp_safe_redirect( get_permalink( $hips_checkout_page_id ) );
-		exit();			
+		if ( ! is_admin() ) {
+			$hips_checkout_page_id = get_option( 'hips_checkout_page_id' );
+			wp_safe_redirect( get_permalink( $hips_checkout_page_id ) );
+			exit();
+		}			
 	}
 
 	/**
